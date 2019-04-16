@@ -1,23 +1,19 @@
 <template>
   <div class="wrapper">
     <v-touch @swipeleft="swipeLeft" @swiperight="swipeRight" class="touch">
-    <van-icon name="manager-o" class="user" @click="handleIconClick"/>
-    <van-tabs v-model="active" animated>
-      <van-tab title="前端技术">
-        <article-list :list="articleList"></article-list>
-      </van-tab>
-      <van-tab title="极客范">
-        <article-list :list="articleList"></article-list>
-      </van-tab>
-    </van-tabs>
-      <van-popup v-model="show" position='right' class="popup" >
+      <van-icon name="manager-o" class="user" @click="handleIconClick"/>
+      <van-tabs v-model="active" animated>
+        <van-tab title="前端技术">
+          <article-list :list="articleList"></article-list>
+        </van-tab>
+        <van-tab title="极客范">
+          <article-list :list="geekList"></article-list>
+        </van-tab>
+      </van-tabs>
+      <van-popup v-model="show" position='right' class="popup">
         <div class="control">
           <van-icon name="search" class="icon"/>
           快速搜索
-        </div>
-        <div class="control">
-          <van-icon name="question-o" class="icon"/>
-          交流问题
         </div>
         <div class="control" @click="manager">
           <van-icon name="apps-o" class="icon"/>
@@ -34,6 +30,7 @@
 <script>
 import ArticleList from './components/ArticleList.vue'
 import getArticleList from '@/api/getArticleList.js'
+import getGeekList from '@/api/getGeekList.js'
 export default {
   name: 'home',
   components: {
@@ -41,6 +38,7 @@ export default {
   },
   created() {
     this.articleList = getArticleList()
+    this.geekList = getGeekList()
   },
   mounted() {
     
@@ -49,6 +47,7 @@ export default {
     return {
       active: 0,
       articleList: [],
+      geekList: [],
       show: false
     }
   },
@@ -71,13 +70,16 @@ export default {
       this.$router.push({
         path: '/article',
         query: {
-          id: '5cb5dce0a91c9300670355fe'
+          type: 'about',
+          id: '5cb60378c8959c0075b32be9'
         }
       })
     },
     manager() {
       if(localStorage.loginedUser) {
-        this.$router.push()
+        this.$router.push({
+          path: '/user'
+        })
       }
     }
   }
@@ -90,7 +92,7 @@ export default {
   .touch
     touch-action: pan-y !important
   .popup
-    width 34vw
+    width 24vw
     height 100%
     background linear-gradient(180deg, #050400, #03214E)
     .control
@@ -99,14 +101,14 @@ export default {
       display flex
       flex-direction column
       text-align center
-      font-size .16rem
+      font-size .12rem
       color #c3c3c3
       border 1px solid transparent
       &:active
         border 1px solid #c3c3c3
     .icon
       color #c3c3c3
-      font-size .4rem
+      font-size .25rem
       margin-bottom .1rem
   .user
     position: fixed;

@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="title">{{title}}</div>
-    <div class="cover-img"></div>
+    <div class="cover-img" :style="coveImg"></div>
   </div>
 </template>
 <script>
@@ -25,6 +25,18 @@ export default {
     title: {
       type: String,
       default: '无题'
+    },
+    url: {
+      type: String,
+      default: 'https://user-gold-cdn.xitu.io/2018/5/31/163b22358bedfe0b?imageView2/1/w/100/h/100/q/85/format/webp/interlace/1'
+    }
+  },
+  computed: {
+    coveImg() {
+      return {
+        'background':  `url("${this.url}")`,
+        'background-size': '100% 100%'
+      }
     }
   }
 }
@@ -60,7 +72,7 @@ export default {
     overflow hidden
     height 0
     margin-top .2rem
-    padding-bottom 1.4rem
+    padding-bottom 1.5rem
     width 100%
     border-radius .05rem
     background url("~@/assets/imgs/banner.jpg")

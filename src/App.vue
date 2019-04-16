@@ -1,17 +1,11 @@
 <template>
   <div id="app">
-      <router-view/>
+    <router-view/>
   </div>
 </template>
 <script>
-import tHeader from './components/tHeader.vue'
-import TabBar from './components/TabBar.vue'
 export default {
-  name: 'App',
-  components: {
-    tHeader,
-    TabBar
-  }
+  name: 'App'
 }
 </script>
 <style lang="stylus">

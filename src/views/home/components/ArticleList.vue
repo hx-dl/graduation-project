@@ -28,9 +28,9 @@
   </div>
 </template>
 <script>
-import { ImagePreview } from 'vant';
+import { ImagePreview } from 'vant'
 export default {
-  name: '',
+  name: 'ArticleList',
   props: {
     list: {
       type: Array,
@@ -85,14 +85,14 @@ export default {
     max-width 2.5rem
     .title
       line-height .24rem
+      padding-right .1rem
       font-size .2rem
       font-weight 700
-      ellipsis()
     .desc
       padding .1rem .05rem .1rem .05rem
       box-sizing border-box
       max-width 2rem
-      max-height 1.3rem
+      max-height 1.1rem
       ellipsis()
   .content-right
     position relative

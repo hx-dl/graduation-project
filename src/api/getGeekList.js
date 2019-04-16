@@ -3,8 +3,9 @@ export default () => {
   const query = new AV.Query('Article')
   query.include('image')
   query.descending('createdAt')
-  var articleList = []
-  query.matches('type','font')
+  
+  var GeekList = []
+  query.matches('type','geek')
   query.find().then( (articles) => {
     articles.forEach( article => {
       let id = article.get('objectId')
@@ -17,7 +18,7 @@ export default () => {
       if(articleImage) {
         coverImg = articleImage.get('url');
       }
-      articleList.push({
+      GeekList.push({
         id,
         title,
         tag,
@@ -26,7 +27,6 @@ export default () => {
         coverImg
       });
     })
-    return articles
   })
-  return articleList
+  return GeekList
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="article">
     <article-header :title="currentArticle.title" />
-    <article-desc :time="currentArticle.time" :title="currentArticle.title" v-if="currentArticle.content"/>
+    <article-desc :time="currentArticle.time" :title="currentArticle.title" :url="currentArticle.coverImg" v-if="currentArticle.content"/>
     <div class="content" v-html="currentArticle.content" v-if="currentArticle.content" v></div>
     <comment :id="$route.query.id" v-if="currentArticle.content"/>
     <van-loading class="loading" color="#1989fa" size="20px" v-if="showLoading"/>
@@ -24,11 +24,13 @@ export default {
     return {
       currentArticle: {},
       imgArr: [],
-      showLoading: true
+      showLoading: true,
+      type: 'Article'
     }
   },
   created() {
-    getContent(this.$route.query.id, (res) => {
+    this.$route.query.type ? this.type = 'About' : this.type = 'Article'
+    getContent(this.type, this.$route.query.id, (res) => {
       this.currentArticle = res
       this.initPreview()
       this.showLoading = false

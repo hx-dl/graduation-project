@@ -1,6 +1,6 @@
-export default (id,callback) => {
+export default (type,id,callback) => {
   //  获取指定 id 的文章信息
-  const query = new AV.Query('Article')
+  const query = new AV.Query(type)
   query.include('image')
   query.descending('createdAt')
   let currentArticle = {}
@@ -11,9 +11,9 @@ export default (id,callback) => {
       let time = res.get('releaseTime')
       let content = res.get('content')
       let articleImage = res.get('image')
-      let coverImg = require('../assets/imgs/banner.jpg')
+      let coverImg = '../assets/imgs/banner.jpg'
       if( articleImage ) {
-        coverImg = articleImage.get('url');
+        coverImg = articleImage.get('url')
       }
       currentArticle = {
         id,

@@ -7,7 +7,7 @@ import Login from './views/login/Index.vue'
 
 Vue.use(Router)
 var router = new Router({
-  mode: 'hash',
+  mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
@@ -35,15 +35,6 @@ var router = new Router({
       component: MyArticle
     }
   ]
-})
-router.beforeEach((to, from, next) => {
-  if( to.path === '/user' && localStorage.loginedUser) {
-    next()
-  }else if( to.path === '/login' && localStorage.loginedUser) {
-    router.push('/user')
-  }else {
-    router.push({path: '/login'})
-  }
 })
 
 export default router
