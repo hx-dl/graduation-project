@@ -89,6 +89,7 @@ export default {
       this.$parent.$emit('checkType')
     },
     toRegister() {
+      if(!this.username || !this.password) return
       var user = new AV.User();
       user.setUsername(this.username);
       user.set('nickname', this.nickname);

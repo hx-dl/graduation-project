@@ -1,11 +1,15 @@
 <template>
+
   <div class="article">
     <article-header :title="currentArticle.title" />
     <article-desc :time="currentArticle.time" :title="currentArticle.title" :url="currentArticle.coverImg" v-if="currentArticle.content"/>
     <div class="content" v-html="currentArticle.content" v-if="currentArticle.content" v></div>
-    <comment :id="$route.query.id" v-if="currentArticle.content"/>
+    <transition name="van-fade">
+      <comment :id="$route.query.id" v-if="currentArticle.content"/>
+    </transition>
     <van-loading class="loading" color="#1989fa" size="20px" v-if="showLoading"/>
   </div>
+
 </template>
 <script>
 import { ImagePreview } from 'vant';

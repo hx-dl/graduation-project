@@ -1,19 +1,31 @@
 <template>
   <div class="wrapper">
+    <transition name="van-slide-down">
+      <form action="/" class="search" v-if="search">
+        <van-search v-model="searchStr" placeholder="请输入文章关键字" show-action  
+          @search="handleSearch"
+          @cancel="onCancel"
+          @clear="handleClear"
+          @input="handleInput"
+        />
+      </form>
+    </transition>
     <v-touch @swipeleft="swipeLeft" @swiperight="swipeRight" class="touch">
-      <van-icon name="manager-o" class="user" @click="handleIconClick"/>
-      <van-tabs v-model="active" animated>
-        <van-tab title="前端技术">
-          <article-list :list="articleList"></article-list>
-        </van-tab>
-        <van-tab title="极客范">
-          <article-list :list="geekList"></article-list>
-        </van-tab>
-      </van-tabs>
+      <div class="header">
+        <van-icon name="manager-o" class="user" @click="handleIconClick" v-if="!search"/>
+        <van-tabs v-model="active" animated>
+          <van-tab title="前端技术">
+            <article-list :list="articleList" ref="articleList"></article-list>
+          </van-tab>
+          <van-tab title="极客范" v-if="!search">
+            <article-list :list="geekList" ref="geekList"></article-list>
+          </van-tab>
+        </van-tabs>
+      </div>
       <van-popup v-model="show" position='right' class="popup">
-        <div class="control">
+        <div class="control" @click="handleSearch">
           <van-icon name="search" class="icon"/>
-          快速搜索
+          快速查询
         </div>
         <div class="control" @click="manager">
           <van-icon name="apps-o" class="icon"/>
@@ -31,6 +43,7 @@
 import ArticleList from './components/ArticleList.vue'
 import getArticleList from '@/api/getArticleList.js'
 import getGeekList from '@/api/getGeekList.js'
+import Search from '@/api/search.js'
 export default {
   name: 'home',
   components: {
@@ -41,30 +54,40 @@ export default {
     this.geekList = getGeekList()
   },
   mounted() {
-    
+    this.$on('refresh', this.toRefresh)
   },
   data() {
     return {
       active: 0,
       articleList: [],
       geekList: [],
-      show: false
+      show: false,
+      searchStr: '',
+      search: false
     }
   },
   methods: {
-    transformData(data) {
-      data.forEach(item => {
-        item.image = item.image.url
-      })
+    toRefresh() {
+      if(this.active = 0) {
+        this.articleList = getArticleList()
+        this.$refs['articleList'].isLoading = false
+      }else {
+        this.geekList = getGeekList()
+        this.$refs['geekList'].isLoading = false
+      }
     },
     handleIconClick() {
       this.show = !this.show
     },
     swipeLeft() {
-      this.active = 1
+      if(!this.search) {
+        this.active = 1
+      }
     },
     swipeRight() {
-      this.active = 0
+      if(!this.search) {
+        this.active = 0
+      }
     },
     aboutAuthor() {
       this.$router.push({
@@ -76,11 +99,33 @@ export default {
       })
     },
     manager() {
-      if(localStorage.loginedUser) {
+      if(AV.User.current()) {
         this.$router.push({
           path: '/user'
         })
+      }else {
+        this.$dialog.confirm({
+          message: '需要管理员权限，是否去登录'
+        }).then(() => {
+          this.$router.push({path: '/login'})
+        }).catch(() => {})
       }
+    },
+    handleSearch() {
+      this.handleIconClick()
+      this.search = true
+    },
+    onCancel() {
+      this.search = false
+    },
+    handleInput() {
+      if(this.searchStr) {
+        this.articleList = Search(this.searchStr)
+      }
+    },
+    handleClear() {
+      this.articleList = getArticleList()
+      this.geekList = getGeekList()
     }
   }
 }
@@ -89,6 +134,10 @@ export default {
 .wrapper
   position relative
   width 100%
+  .search
+    position fixed
+    z-index 100
+    width 100%
   .touch
     touch-action: pan-y !important
   .popup

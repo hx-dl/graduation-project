@@ -3,8 +3,10 @@
     <div class="background-img" />
     <img src="@/assets/imgs/logo.png" class="logo">
     <div class="input-area">
-      <login v-if="loginPage"/>
-      <register v-else/>
+      <transition name="van-fade">
+        <login v-if="loginPage"/>
+        <register v-else/>
+      </transition>
     </div>
   </div>
 </template>
@@ -62,7 +64,7 @@ export default {
   background #efefef
   .background-img
     height 3rem
-    background-image: linear-gradient(-225deg,#05042c,#032151);
+    background-image: linear-gradient(-225deg, #0000001a, #032151);
   .logo
     position absolute
     left 50%
@@ -76,11 +78,11 @@ export default {
     top 50%
     margin-top .2rem
     margin-left -1.6rem
-    border-radius .1rem
+    border-radius .05rem
     width 3.2rem
     height 4.4rem
     background #fff
-    box-shadow 1px 1px 12px #BDBFFF
+    box-shadow 1px 1px 10px #BDBFFF
 </style>
 
 

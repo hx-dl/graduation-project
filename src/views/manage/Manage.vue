@@ -1,9 +1,14 @@
 <template>
-  
+  <div class="list">
+
+  </div>
 </template>
 <script>
 export default {
-  name: ''
+  name: 'Manage',
+  data() {
+    return { }
+  }
 }
 </script>
 <style lang="stylus" scoped>

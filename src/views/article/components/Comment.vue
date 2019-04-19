@@ -16,7 +16,8 @@ export default {
       appKey: 'bSR1P7PL4TpcXz97UqlMRIci',
       avatar:'monsterid', 
       path: this.id,
-      placeholder: '支持markdown语法哦,给条评论吧~' 
+      placeholder: '支持markdown语法哦,给条评论吧~',
+      visitor: true // 阅读量统计
     });
   },
 }
@@ -74,6 +75,10 @@ export default {
   margin-right 0
 #comment >>> .vnick
   margin-right 0
+#comment >>> ul
+  margin-left: .12rem
+#comment >>> ol
+  margin-left: .12rem
 </style>
 
 

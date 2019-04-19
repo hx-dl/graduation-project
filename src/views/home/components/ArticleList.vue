@@ -19,7 +19,7 @@
               <van-tag color="#f2826a" plain>{{item.tag}}</van-tag>
             </div>
             <div class="content-right">
-              <img class="cover-img" v-lazy="item.coverImg" alt="文章配图" @click="preview(index)">
+              <img class="cover-img" :src="item.coverImg" alt="文章配图" @click="preview(index)">
             </div>
           </div>
         </van-cell>
@@ -46,15 +46,11 @@ export default {
   },
   methods: {
     onLoad() {
-      console.log(1)
       this.loading = false
       this.finished = true
     },
     onRefresh() {
-      console.log('正在刷新')
-      setTimeout(() => {
-        this.isLoading = false
-      },1000)
+      this.$parent.$emit('refresh')
     },
     preview(index) {
       let imgArr = []
