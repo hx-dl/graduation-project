@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view/>
+    <keep-alive exclude='myArticle'>
+      <router-view/>
+    </keep-alive>
   </div>
 </template>
 <script>
@@ -9,7 +11,9 @@ export default {
 }
 </script>
 <style lang="stylus">
-
+.van-dialog__message
+  line-height 1 !important
 </style>
+
 
 

@@ -1,12 +1,10 @@
 <template>
   <div class="wrapper">
-    <div class="background-img" />
+    <div class="background-img"></div>
     <img src="@/assets/imgs/logo.png" class="logo">
     <div class="input-area">
-      <transition name="van-fade">
         <login v-if="loginPage"/>
         <register v-else/>
-      </transition>
     </div>
   </div>
 </template>

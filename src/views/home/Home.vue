@@ -1,175 +1,129 @@
 <template>
   <div class="wrapper">
-    <transition name="van-slide-down">
-      <form action="/" class="search" v-if="search">
-        <van-search v-model="searchStr" placeholder="请输入文章关键字" show-action  
-          @search="handleSearch"
-          @cancel="onCancel"
-          @clear="handleClear"
-          @input="handleInput"
-        />
-      </form>
-    </transition>
+    <!-- 顶部搜索 -->
+    <home-search :searchStatus="searchStatus"/>
+    <!-- 主页主体 -->
     <v-touch @swipeleft="swipeLeft" @swiperight="swipeRight" class="touch">
-      <div class="header">
-        <van-icon name="manager-o" class="user" @click="handleIconClick" v-if="!search"/>
-        <van-tabs v-model="active" animated>
-          <van-tab title="前端技术">
-            <article-list :list="articleList" ref="articleList"></article-list>
-          </van-tab>
-          <van-tab title="极客范" v-if="!search">
-            <article-list :list="geekList" ref="geekList"></article-list>
-          </van-tab>
-        </van-tabs>
+      <div class="aside-switch" v-show="noSearch">
+        <van-icon name="manager-o" class="user" @click="handleIconClick"/>
       </div>
-      <van-popup v-model="show" position='right' class="popup">
-        <div class="control" @click="handleSearch">
-          <van-icon name="search" class="icon"/>
-          快速查询
-        </div>
-        <div class="control" @click="manager">
-          <van-icon name="apps-o" class="icon"/>
-          管理中心
-        </div>
-        <div class="control" @click="aboutAuthor">
-          <van-icon name="user-circle-o" class="icon"/>
-          关于作者
-        </div>
-      </van-popup>
+      <van-tabs v-model="active" animated>
+        <van-tab title="前端技术">
+          <transition name="van-fade">
+            <article-list :list="articleList" ref="fontend"/>
+          </transition>
+        </van-tab>
+        <van-tab title="极客范" v-if="noSearch">
+          <transition name="van-fade">
+            <article-list :list="geekList" ref="geek"/>
+          </transition>
+        </van-tab>
+      </van-tabs>
     </v-touch>
+    <!-- 侧边栏 -->
+    <home-aside ref="homeaside"/>
   </div>
 </template>
 <script>
+import HomeSearch from  './components/HomeSearch.vue'
+import HomeAside from './components/HomeAside.vue'
 import ArticleList from './components/ArticleList.vue'
-import getArticleList from '@/api/getArticleList.js'
-import getGeekList from '@/api/getGeekList.js'
-import Search from '@/api/search.js'
 export default {
   name: 'home',
   components: {
-    ArticleList
+    ArticleList,
+    HomeSearch,
+    HomeAside
+  },
+  computed: {
+    noSearch() {
+      return !this.searchStatus === true
+    }
   },
   created() {
-    this.articleList = getArticleList()
-    this.geekList = getGeekList()
+    this.getHomeInfo()
   },
   mounted() {
-    this.$on('refresh', this.toRefresh)
+    this.$root.$on('refresh', this.toRefresh)
+    this.$root.$on('showSearch', this.showSearch)
   },
   data() {
     return {
       active: 0,
       articleList: [],
       geekList: [],
-      show: false,
-      searchStr: '',
-      search: false
+      isLoading: false,
+      searchStatus: false
     }
   },
   methods: {
-    toRefresh() {
-      if(this.active = 0) {
-        this.articleList = getArticleList()
-        this.$refs['articleList'].isLoading = false
-      }else {
-        this.geekList = getGeekList()
-        this.$refs['geekList'].isLoading = false
+    //获取首页数据
+    async getHomeInfo() {
+      this.articleList = await API.getArticleList('fontend')
+      this.geekList = await API.getArticleList('geek')
+    },
+    //下拉刷新
+    async toRefresh() {
+      if(this.active === 0) {
+        let articleList = await API.getArticleList('fontend')
+        setTimeout(() => {
+          this.articleList = articleList
+          this.$refs.fontend.isLoading = false
+        }, 500);
+      }
+      if(this.active === 1) {
+        let geekList = await API.getArticleList('geek')
+        setTimeout(() => {
+          this.geekList = geekList
+          this.$refs.geek.isLoading = false
+        }, 500)
       }
     },
+    showSearch() {
+      this.searchStatus = true
+    },
+    //侧边栏开关
     handleIconClick() {
-      this.show = !this.show
+      this.$refs.homeaside.showAside = !this.$refs.homeaside.showAside
     },
     swipeLeft() {
-      if(!this.search) {
+      if(!this.searchStatus) {
         this.active = 1
       }
     },
     swipeRight() {
-      if(!this.search) {
+      if(!this.searchStatus) {
         this.active = 0
       }
-    },
-    aboutAuthor() {
-      this.$router.push({
-        path: '/article',
-        query: {
-          type: 'about',
-          id: '5cb60378c8959c0075b32be9'
-        }
-      })
-    },
-    manager() {
-      if(AV.User.current()) {
-        this.$router.push({
-          path: '/user'
-        })
-      }else {
-        this.$dialog.confirm({
-          message: '需要管理员权限，是否去登录'
-        }).then(() => {
-          this.$router.push({path: '/login'})
-        }).catch(() => {})
-      }
-    },
-    handleSearch() {
-      this.handleIconClick()
-      this.search = true
-    },
-    onCancel() {
-      this.search = false
-    },
-    handleInput() {
-      if(this.searchStr) {
-        this.articleList = Search(this.searchStr)
-      }
-    },
-    handleClear() {
-      this.articleList = getArticleList()
-      this.geekList = getGeekList()
     }
   }
 }
 </script>
 <style lang="stylus" scoped>
-.wrapper
-  position relative
-  width 100%
-  .search
-    position fixed
-    z-index 100
-    width 100%
-  .touch
-    touch-action: pan-y !important
-  .popup
-    width 24vw
-    height 100%
-    background linear-gradient(180deg, #050400, #03214E)
-    .control
-      margin .1rem
-      padding .1rem
-      display flex
-      flex-direction column
-      text-align center
-      font-size .12rem
-      color #c3c3c3
-      border 1px solid transparent
-      &:active
-        border 1px solid #c3c3c3
-    .icon
-      color #c3c3c3
-      font-size .25rem
-      margin-bottom .1rem
-  .user
-    position: fixed;
-    z-index: 1000;
-    right: .1rem;
-    top: .1rem;
-    font-size: .22rem;
 .wrapper >>> .van-tabs__wrap
   position fixed
   background #fff
   .van-tabs__nav--line
     width 50vw
+.wrapper
+  position relative
+  width 100%
+  .touch
+    touch-action: pan-y !important
+  .aside-switch
+    position fixed
+    z-index 100
+    top: 11px;
+    right: 11px;
+    width 22px
+    height 22px
+    border 1px solid
+    border-radius 50%
+    display flex
+    justify-content center
+    align-items center
+    .user
+      font-size: 22px;
 </style>
 
 

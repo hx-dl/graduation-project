@@ -8,19 +8,17 @@
         @load="onLoad"
       >
         <van-cell
-          v-for="(item,index) in list"
+          v-for="item in list"
           :key="item.id"
           @click="toArticle(item.id)"
         >
-          <div class="content-wrapper" >
-            <div class="content-left">
-              <h1 class="title">{{item.title}}</h1>
-              <div class="desc">{{item.description}}</div>
-              <van-tag color="#f2826a" plain>{{item.tag}}</van-tag>
-            </div>
-            <div class="content-right">
-              <img class="cover-img" :src="item.coverImg" alt="文章配图" @click="preview(index)">
-            </div>
+          <div class="content-cover">
+            <img class="cover-img" :src="item.coverImg">
+          </div>
+          <div class="content-desc">
+            <h1 class="title">{{item.title}}</h1>
+            <div class="desc">{{item.description}}</div>
+            <van-tag class="tag" color="#f2826a" plain>{{item.tag}}</van-tag>
           </div>
         </van-cell>
       </van-list>
@@ -28,7 +26,6 @@
   </div>
 </template>
 <script>
-import { ImagePreview } from 'vant'
 export default {
   name: 'ArticleList',
   props: {
@@ -50,17 +47,7 @@ export default {
       this.finished = true
     },
     onRefresh() {
-      this.$parent.$emit('refresh')
-    },
-    preview(index) {
-      let imgArr = []
-      this.list.forEach(item => {
-        if(item.coverImg) imgArr.push(item.coverImg)
-      })
-      ImagePreview({
-        images: imgArr,
-        startPosition: index
-      })
+      this.$root.$emit('refresh')
     },
     toArticle(id) {
       this.$router.push({ path: '/article',query: {
@@ -72,36 +59,33 @@ export default {
 </script>
 <style lang="stylus" scoped>
 @import '~@/assets/styles/mixins.styl'
-.content-wrapper
-  display flex
-  flex-direction row
-  justify-content space-between
-  padding .1rem .05rem
-  .content-left
-    max-width 2.5rem
-    .title
-      line-height .24rem
-      padding-right .1rem
-      font-size .2rem
-      font-weight 700
-    .desc
-      padding .1rem .05rem .1rem .05rem
-      box-sizing border-box
-      max-width 2rem
-      max-height 1.1rem
-      ellipsis()
-  .content-right
-    position relative
-    width 1rem
-    height .8rem
+.content-cover
+  position relative
+  width 90vw
+  margin 0 auto
+  height 1.75rem
+  border-radius .05rem
+  overflow hidden
+  .cover-img
+    position absolute
+    width 100%
+    left 50%
+    top 50%
+    transform translate3d(-50%,-50%,0)
     border-radius .05rem
-    overflow hidden
-    .cover-img
-      position absolute
-      left 50%
-      top 50%
-      transform translate3d(-50%,-50%,0)
-      height 100%
+.content-desc
+  .title
+    text-align center
+    line-height .32rem
+    font-size .16rem
+    font-weight 700
+  .desc
+    padding .1rem
+    max-height .8rem
+    ellipsis()
+  .tag
+    position relative
+    left .1rem
 </style>
 
 

@@ -65,7 +65,7 @@ export default {
         AV.User.logIn(this.username, this.password).then( loginedUser => {
           localStorage.loginedUser = JSON.stringify(loginedUser)
           this.$router.push({
-            path: '/home'
+            path: '/user'
           })
         }, error => {
           this.$notify(`${error}`.slice(0,20))

@@ -22,7 +22,7 @@ export default {
       this.$router.go(-1)
     },
     share() {
-      console.log('点击分享')
+      console.log('[点击分享]')
     }
   }
 }

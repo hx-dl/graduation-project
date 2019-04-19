@@ -1,12 +1,11 @@
 <template>
-  <div class="avatar">
+  <div class="wrapper">
     <div class="card">
       <div class="userinfo van-hairline--bottom">
         <img src="@/assets/imgs/avatar.jpg">
         <span class="username">{{nickname}}</span>
         <span class="userathu">博客管理员</span>
       </div>
-      
     </div>
   </div>
 </template>
@@ -21,7 +20,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.avatar
+.wrapper
   position relative
   height 1.6rem
   background url('~@/assets/imgs/banner.jpg')
@@ -37,7 +36,8 @@ export default {
     width 90vw
     height .6rem
     border-radius .08rem
-    box-shadow 1px 1px 12px #BDBFFF
+    &:active
+      box-shadow 1px 1px 12px #BDBFFF
     .userinfo
       position relative
       padding-bottom .1rem

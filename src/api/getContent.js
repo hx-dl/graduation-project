@@ -1,11 +1,10 @@
-export default (type,id,callback) => {
+export default (id) => {
   //  获取指定 id 的文章信息
-  const query = new AV.Query(type)
-  query.include('image')
-  query.descending('createdAt')
-  let currentArticle = {}
-  query.get(id)
-    .then( res => {
+  return new Promise( (resolve) => {
+    const query = new AV.Query('Article')
+    let currentArticle = {}
+    query.include('image')
+    query.get(id).then( res => {
       let id = res.get('objectId')
       let title = res.get('title')
       let time = res.get('releaseTime')
@@ -22,6 +21,7 @@ export default (type,id,callback) => {
         content: marked(content),
         coverImg
       }
-      callback(currentArticle)
+      resolve(currentArticle)
     })
+  })
 }

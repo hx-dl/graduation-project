@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/home/Home.vue'
-import MyArticle from './views/article/Article.vue'
+import MyArticle from './views/article/MyArticle.vue'
 import User from './views/user/index.vue'
 import Login from './views/login/Index.vue'
+import Manage from './views/manage/Manage.vue'
+import Public from './views/public/Public.vue'
 
 Vue.use(Router)
 var router = new Router({

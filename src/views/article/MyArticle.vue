@@ -1,62 +1,66 @@
 <template>
-
   <div class="article">
-    <article-header :title="currentArticle.title" />
-    <article-desc :time="currentArticle.time" :title="currentArticle.title" :url="currentArticle.coverImg" v-if="currentArticle.content"/>
-    <div class="content" v-html="currentArticle.content" v-if="currentArticle.content" v></div>
+    <article-header :title="currentArticle.title"/>
+    <!-- 文章描述 -->
+    <article-desc 
+      :time="currentArticle.time" 
+      :title="currentArticle.title" 
+      :url="currentArticle.coverImg" 
+      v-if="currentArticle.content"
+    />
+    <!-- 文章内容 -->
     <transition name="van-fade">
-      <comment :id="$route.query.id" v-if="currentArticle.content"/>
+      <div class="content" v-html="currentArticle.content" v-if="currentArticle.content"></div>
     </transition>
+    <!-- 评论内容 -->
+    <ArticleComment :id="$route.query.id" v-if="currentArticle.content"/>
     <van-loading class="loading" color="#1989fa" size="20px" v-if="showLoading"/>
   </div>
 
 </template>
 <script>
-import { ImagePreview } from 'vant';
-import getContent from '@/api/getContent.js'
+import { ImagePreview } from 'vant'
 import ArticleDesc from './components/ArticleDesc.vue'
 import ArticleHeader from './components/ArticleHeader.vue'
-import Comment from './components/Comment.vue'
+import ArticleComment from './components/ArticleComment.vue'
 export default {
   name: 'myArticle',
   components: {
     ArticleDesc,
-    Comment,
+    ArticleComment,
     ArticleHeader
+  },
+  watch:{
+    currentArticle(val) {
+      if(val.content) {
+        setTimeout(() => this.initPreview(), 20)
+      }
+    }
   },
   data() {
     return {
-      currentArticle: {},
-      imgArr: [],
-      showLoading: true,
-      type: 'Article'
+      currentArticle: {},   //当前文章内容
+      imgArr: [],   //文章中所有的图片
+      showLoading: true
     }
   },
   created() {
-    this.$route.query.type ? this.type = 'About' : this.type = 'Article'
-    getContent(this.type, this.$route.query.id, (res) => {
-      this.currentArticle = res
-      this.initPreview()
-      this.showLoading = false
-    })
+    this.getArticleContent()
   },
   methods: {
     initPreview() {
-      this.$nextTick(() => {
-        let imgNodes = document.querySelectorAll('.article img')
-        console.log(this.imgNodes)
-        imgNodes.forEach( (item,index) => {
-          this.imgArr.push(item.src)
-        })
-        imgNodes.forEach((item, index) => {
-          item.addEventListener('click', () => {
-            ImagePreview({
-              images: this.imgArr,
-              startPosition: index
-            })
-          })
+      let imgNodes = document.querySelectorAll('.article img')
+      imgNodes.forEach( (item,index) => { this.imgArr.push(item.src) })
+      imgNodes.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          ImagePreview({ images: this.imgArr, startPosition: index })
         })
       })
+    },
+    //获取文章内容
+    async getArticleContent() {
+      this.currentArticle = await API.getContent(this.$route.query.id)
+      this.showLoading = false
     }
   }
 }

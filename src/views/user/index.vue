@@ -1,16 +1,16 @@
 <template>
   <div class="user">
-    <avatar/>
+    <user-info/>
     <list/>
   </div>
 </template>
 <script>
-import Avatar from './components/Avatar.vue'
+import UserInfo from './components/UserInfo.vue'
 import List from './components/List.vue'
 export default {
   name: 'user',
   components: {
-    Avatar, List
+    UserInfo, List
   }
 }
 </script>
