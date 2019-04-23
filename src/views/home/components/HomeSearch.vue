@@ -27,6 +27,7 @@ export default {
   methods: {
     onCancel() {
       this.$parent.searchStatus = false
+      this.$parent.getHomeInfo()
     },
     //处理搜索
     handleInput() {

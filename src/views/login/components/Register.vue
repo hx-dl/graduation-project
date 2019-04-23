@@ -13,6 +13,20 @@
         @click-right-icon="$toast('注册时的手机号或邮箱账号')"
         required
       />
+      <van-field
+        class="password"
+        v-model="password"
+        :type="passwordType"
+        placeholder="请输入密码"
+        label="密码"
+        clearable
+        @focus="handleClear"
+        :right-icon="eyeType"
+        :error-message="passwordMessage"
+        error-message-align='right'
+        @click-right-icon="handlePasswordToggle"
+        required
+      />
       <van-field 
         class="nickname"
         v-model="nickname"
@@ -35,20 +49,6 @@
         :error-message="passwordMessage"
         error-message-align='right'
         @click-right-icon="handlePasswordToggle"
-      />
-      <van-field
-        class="password"
-        v-model="password"
-        :type="passwordType"
-        placeholder="请输入密码"
-        label="密码"
-        clearable
-        @focus="handleClear"
-        :right-icon="eyeType"
-        :error-message="passwordMessage"
-        error-message-align='right'
-        @click-right-icon="handlePasswordToggle"
-        required
       />
       <van-button type="primary" size="large" text="注册" @click="toRegister"/>
     </van-cell-group>

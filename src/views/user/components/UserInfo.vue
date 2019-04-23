@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="card">
       <div class="userinfo van-hairline--bottom">
-        <img src="@/assets/imgs/avatar.jpg">
+        <img :src="require('@/assets/imgs/avatar.jpg')">
         <span class="username">{{nickname}}</span>
         <span class="userathu">博客管理员</span>
       </div>

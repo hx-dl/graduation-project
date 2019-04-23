@@ -16,7 +16,6 @@
     <ArticleComment :id="$route.query.id" v-if="currentArticle.content"/>
     <van-loading class="loading" color="#1989fa" size="20px" v-if="showLoading"/>
   </div>
-
 </template>
 <script>
 import { ImagePreview } from 'vant'
@@ -111,6 +110,13 @@ export default {
     display: block
     margin-block-start 1em
     margin-block-end 1em
+    code
+      background-color #fff5f5
+      color #ff502c
+      display inline
+      font-size .87em
+      padding .065em .4em
+.article >>> li
     code
       background-color #fff5f5
       color #ff502c

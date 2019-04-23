@@ -1,5 +1,5 @@
 export default () => {
-  //  获取文章列表
+  //  获取当前登录用户的文章列表
   const query = new AV.Query('Article')
   query.include('image')
   query.descending('createdAt')

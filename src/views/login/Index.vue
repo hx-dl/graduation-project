@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="background-img"></div>
-    <img src="@/assets/imgs/logo.png" class="logo">
+    <img :src="require('@/assets/imgs/logo.png')" class="logo">
     <div class="input-area">
         <login v-if="loginPage"/>
         <register v-else/>

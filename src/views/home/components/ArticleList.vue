@@ -63,7 +63,7 @@ export default {
   position relative
   width 90vw
   margin 0 auto
-  height 1.75rem
+  height 1.6rem
   border-radius .05rem
   overflow hidden
   .cover-img
@@ -81,7 +81,7 @@ export default {
     font-weight 700
   .desc
     padding .1rem
-    max-height .8rem
+    max-height .6rem
     ellipsis()
   .tag
     position relative

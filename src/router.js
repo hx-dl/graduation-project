@@ -9,8 +9,7 @@ import Public from './views/public/Public.vue'
 
 Vue.use(Router)
 var router = new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
+  mode: 'hash',
   routes: [
     {
       path: '/',

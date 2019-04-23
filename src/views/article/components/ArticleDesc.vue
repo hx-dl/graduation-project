@@ -66,7 +66,7 @@ export default {
       width .4rem
       height .4rem
       border-radius 50%
-      background url("https://user-gold-cdn.xitu.io/2018/5/31/163b22358bedfe0b?imageView2/1/w/100/h/100/q/85/format/webp/interlace/1")
+      background url("../../../assets/imgs/avatar.jpg")
       background-size: 100% 100%
   .cover-img
     overflow hidden
