@@ -90,22 +90,27 @@ export default {
   code
     background-color #fff5f5
     color #ff502c
-    display inline
+    max-width 88vw
+    display inline-block
     font-size .87em
     padding .065em .4em
+    overflow-x auto
+    -webkit-overflow-scrolling touch
 .article >>> h2
   font-size .2rem
   code
     background-color #fff5f5
     color #ff502c
-    display inline
+    display inline-block
+    max-width 88vw
     font-size .87em
     padding .065em .4em
+    overflow-x: auto
+    -webkit-overflow-scrolling: touch
 .article >>> h3
   font-size .18rem
 .article >>> h4
   font-size .16rem
-  
 .article >>> p
     display: block
     margin-block-start 1em
@@ -113,16 +118,22 @@ export default {
     code
       background-color #fff5f5
       color #ff502c
-      display inline
+      display inline-block
+      max-width 88vw
       font-size .87em
       padding .065em .4em
+      overflow-x: auto
+      -webkit-overflow-scrolling: touch
 .article >>> li
     code
       background-color #fff5f5
       color #ff502c
-      display inline
+      display inline-block
+      max-width 88vw
       font-size .87em
       padding .065em .4em
+      overflow-x: auto
+      -webkit-overflow-scrolling: touch
 .article >>> a
     color #0269c8
     border-bottom 1px solid #d1e9ff
