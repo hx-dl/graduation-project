@@ -1,4 +1,4 @@
-export default (id) => {
+export default (id, edit = false) => {
   //  获取指定 id 的文章信息
   return new Promise( (resolve) => {
     const query = new AV.Query('Article')
@@ -14,14 +14,18 @@ export default (id) => {
       if( articleImage ) {
         coverImg = articleImage.get('url')
       }
-      currentArticle = {
-        id,
-        title,
-        time,
-        content: marked(content),
-        coverImg
+      if(edit) {
+        resolve(content)
+      }else {
+        currentArticle = {
+          id,
+          title,
+          time,
+          content: marked(content),
+          coverImg
+        }
+        resolve(currentArticle)
       }
-      resolve(currentArticle)
     })
   })
 }

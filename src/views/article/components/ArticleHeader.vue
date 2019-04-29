@@ -22,7 +22,12 @@ export default {
       this.$router.go(-1)
     },
     share() {
-      window.plugins.socialsharing.share('文章分享',this.title,null,`https://hackerhanxi.gitee.io/bsblog/#/article?id=${this.$route.query.id}`)
+      window.plugins.socialsharing.share(
+        '文章分享',
+        this.title,
+        null,
+        `https://hackerhanxi.gitee.io/bsblog/#/article?id=${this.$route.query.id}`
+      )
     }
   }
 }
