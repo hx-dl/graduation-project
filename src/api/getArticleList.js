@@ -5,11 +5,8 @@ export default (type, title = null, search = false) => {
     query.include('image')
     query.descending('createdAt')
     var articleList = []
-    if(search) {
-      query.contains('title',title)
-    }else {
-      query.matches('type', type)
-    }
+    if(search) { query.contains('title',title) }
+    else { query.matches('type', type) }
     query.find().then( (articles) => {
       articles.forEach( article => {
         let id = article.get('objectId')
@@ -17,19 +14,12 @@ export default (type, title = null, search = false) => {
         let tag = article.get('tag')
         let time = article.get('releaseTime')
         let description = article.get('description')
-        let articleImage = article.get('image');
+        let articleImage = article.get('image')
         let coverImg = require('../assets/imgs/banner.jpg')
         if(articleImage) {
-          coverImg = articleImage.get('url');
+          coverImg = articleImage.get('url')
         }
-        articleList.push({
-          id,
-          title,
-          tag,
-          time,
-          description,
-          coverImg
-        });
+        articleList.push({id,title,tag,time,description,coverImg})
       })
     })
     resolve(articleList)

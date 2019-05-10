@@ -39,7 +39,7 @@ export default {
       isLoading: false,
       loading: false,
       finished: false
-    };
+    }
   },
   methods: {
     onLoad() {

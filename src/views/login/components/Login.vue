@@ -71,12 +71,8 @@ export default {
           this.$notify(`${error}`.slice(0,20))
         })
       }else {
-          if(!this.username) {
-            this.usernameMessage = '用户名不能为空'
-          }
-          if(!this.password) {
-            this.passwordMessage = '请输入密码'
-          }
+          if(!this.username) { this.usernameMessage = '用户名不能为空' }
+          if(!this.password) { this.passwordMessage = '请输入密码' }
           return
       }
     },

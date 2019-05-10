@@ -4,16 +4,9 @@
     <van-list  class="list" v-model="loading" :finished="finished" @load="onLoad">
       <van-cell v-for="item in articleList" :key="item.id" >
         {{item.title}}
-        <van-button type="info" class="edit-btn" @click="handleEditClick(item.id, item.title, item.tag, item.content)">编辑</van-button>
+        <van-button type="info" class="edit-btn" @click="handleEditClick(item.id)">编辑</van-button>
       </van-cell>
     </van-list>
-    <van-popup v-model="show" class="edit-content">
-      <van-field v-model="article.title" placeholder="请输入文字标题"/>
-      <van-field v-model="article.tag" placeholder="请输入文字标签"/>
-      <label for="content">文章内容</label> 
-      <textarea name="文章内容" v-model="article.content"/>
-      <van-button type="info" class="save-btn" @click="handleSaveClick">保存修改</van-button>
-    </van-popup>
   </div>
 </template>
 <script>
@@ -24,12 +17,7 @@ export default {
       show: false,
       loading: false,
       finished: true,
-      articleList: [],
-      article: {
-        title: '',
-        tag: '',
-        content: ''
-      }
+      articleList: []
     }
   },
   async mounted() {
@@ -43,14 +31,14 @@ export default {
       this.loading = false
       this.finished = true
     },
-    async handleEditClick(id, title, tag, content) {
+    async handleEditClick(id) {
         this.show = !this.show
-        this.article.title = title
-        this.article.tag = tag
-        this.article.content = await API.getContent(id,'edit')
-    },
-    handleSaveClick() {
-
+        this.$router.push({
+          path: '/edit',
+          query: {
+            id
+          }
+        })
     }
   }
 }
@@ -60,7 +48,7 @@ export default {
   position fixed
   width 100%
 .list
-  padding-top .44rem
+  padding-top .46rem
 .edit-btn
   float right
   height .3rem

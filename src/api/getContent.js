@@ -7,6 +7,7 @@ export default (id, edit = false) => {
     query.get(id).then( res => {
       let id = res.get('objectId')
       let title = res.get('title')
+      let tag = res.get('tag')
       let time = res.get('releaseTime')
       let content = res.get('content')
       let articleImage = res.get('image')
@@ -15,15 +16,10 @@ export default (id, edit = false) => {
         coverImg = articleImage.get('url')
       }
       if(edit) {
-        resolve(content)
+        currentArticle = { id, title, time, coverImg, tag, content }
+        resolve(currentArticle)
       }else {
-        currentArticle = {
-          id,
-          title,
-          time,
-          content: marked(content),
-          coverImg
-        }
+        currentArticle = { id, title, time, content: marked(content), coverImg }
         resolve(currentArticle)
       }
     })

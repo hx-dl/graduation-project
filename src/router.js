@@ -5,6 +5,7 @@ import MyArticle from './views/article/MyArticle.vue'
 import User from './views/user/index.vue'
 import Login from './views/login/Index.vue'
 import Manage from './views/manage/Manage.vue'
+import Edit from './views/manage/Edit.vue'
 
 Vue.use(Router)
 var router = new Router({
@@ -38,6 +39,11 @@ var router = new Router({
       path: '/manage',
       name: 'Manage',
       component: Manage
+    },
+    {
+      path: '/edit',
+      name: 'Edit',
+      component: Edit
     }
   ]
 })

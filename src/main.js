@@ -30,11 +30,12 @@ VueTouch.config.swipe = {
 }
 //局部引用vant-ui
 import { 
-  Search, NavBar, List, Cell, CellGroup, Tab, Tabs, PullRefresh,
+  Search, NavBar, List, Cell, CellGroup, Tab, Tabs, PullRefresh, Panel,
   Field, Button, Notify, Toast, Icon, Lazyload, Tag, Popup, Loading, Dialog 
 } from 'vant'
 
 Vue.use(Search)
+Vue.use(Panel)
 Vue.use(Field)
 Vue.use(Popup)
 Vue.use(Button)
